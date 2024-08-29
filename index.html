@@ -3,51 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Risk Assessment Calculator</title>
+    <title>Chemical Risk Level Calculator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Chemical Risk Assessment Calculator</h1>
-    </header>
-    
-    <main>
-        <section id="chemical-selection">
-            <h2>Select Chemical</h2>
-            <select id="chemical-dropdown">
-                <!-- Options will be populated by JS -->
-            </select>
-        </section>
-        
-        <section id="chemical-details">
-            <h2>Chemical Details</h2>
-            <div id="chemical-info">
-                <p><strong>Chemical Name:</strong> <span id="chemical-name"></span></p>
-                <p><strong>Structure:</strong> <img id="chemical-structure" src="" alt="Chemical Structure" width="200"></p>
-                <p><strong>Properties:</strong></p>
-                <ul id="chemical-properties"></ul>
-            </div>
-        </section>
-        
-        <section id="risk-calculator">
-            <h2>Risk Calculator</h2>
-            <label for="concentration">Concentration (c in mg/kg):</label>
-            <input type="number" id="concentration" step="0.01">
-            <label for="exposure">Exposure (e in kg/day):</label>
-            <input type="number" id="exposure" step="0.01">
-            <button onclick="calculateRisk()">Calculate Risk</button>
-        </section>
-        
-        <section id="risk-results">
-            <h2>Risk Assessment Results</h2>
-            <p><strong>QSAR Predicted Risk Level:</strong> <span id="qsar-risk"></span></p>
-            <p><strong>Calculated Risk Level:</strong> <span id="calculated-risk"></span></p>
-            <p><strong>Risk Level Classification:</strong> <span id="risk-classification"></span></p>
-            <div id="risk-chart" style="width: 100%; height: 400px;"></div>
-        </section>
-    </main>
-    
-    <script src="script.js"></script>
+    <div class="container">
+        <h1>Chemical Risk Level Calculator</h1>
+        <label for="chemical-select">Select Chemical:</label>
+        <select id="chemical-select">
+            <option value="Caffeine">Caffeine</option>
+            <option value="Aspartame">Aspartame</option>
+            <option value="Sodium Benzoate">Sodium Benzoate</option>
+            <option value="Paracetamol">Paracetamol</option>
+            <option value="Nicotine">Nicotine</option>
+            <option value="Sodium Nitrite">Sodium Nitrite</option>
+            <option value="Monosodium Glutamate">Monosodium Glutamate</option>
+            <option value="Saccharin">Saccharin</option>
+            <option value="Acesulfame K">Acesulfame K</option>
+            <option value="Cyclamate">Cyclamate</option>
+            <option value="Ibuprofen">Ibuprofen</option>
+            <option value="Acetaminophen">Acetaminophen</option>
+            <option value="Ethanol">Ethanol</option>
+            <option value="Benzene">Benzene</option>
+            <option value="Formaldehyde">Formaldehyde</option>
+            <option value="Propylene Glycol">Propylene Glycol</option>
+            <option value="Methanol">Methanol</option>
+            <option value="Toluene">Toluene</option>
+            <option value="Chlorpyrifos">Chlorpyrifos</option>
+            <option value="Atrazine">Atrazine</option>
+            <option value="Glyphosate">Glyphosate</option>
+            <option value="DDT">DDT</option>
+            <option value="Lead Acetate">Lead Acetate</option>
+            <option value="Sodium Fluoride">Sodium Fluoride</option>
+            <option value="Thalidomide">Thalidomide</option>
+        </select>
+
+        <button onclick="calculateRiskLevel()">Calculate Risk Level</button>
+
+        <h2>Results</h2>
+        <p id="risk-level">Risk Level: </p>
+        <p id="toxicity-risk">Toxicity Risk: </p>
+        <p id="accuracy">Accuracy: </p>
+    </div>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
