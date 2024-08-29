@@ -1,47 +1,64 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
-
-main {
-    padding: 1rem;
-}
-
-h1, h2 {
-    color: #333;
-}
-
-#chemical-selection, #chemical-details, #risk-calculator, #risk-results {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background-color: white;
-    border-radius: 8px;
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
 }
 
-#chemical-details img {
-    max-width: 100%;
-    height: auto;
+h1 {
+    font-size: 24px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 16px;
+    color: #666666;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
 }
 
 button {
-    padding: 0.5rem 1rem;
     background-color: #007bff;
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
     background-color: #0056b3;
+}
+
+h2 {
+    font-size: 20px;
+    color: #333333;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 16px;
+    color: #666666;
 }
