@@ -1,128 +1,40 @@
-// Chemical data
-const chemicals = {
-    "Caffeine": {
-        name: "Caffeine",
-        structure: "path/to/caffeine-structure.png",
-        properties: {
-            "LD50": 192, // mg/kg
-            "QSAR Risk Level": 0.05,
-            "Experimental Risk Level": 0.04,
-            "Accuracy": 80
-        }
-    },
-    "Aspartame": {
-        name: "Aspartame",
-        structure: "path/to/aspartame-structure.png",
-        properties: {
-            "LD50": 5000, // mg/kg
-            "QSAR Risk Level": 0.01,
-            "Experimental Risk Level": 0.005,
-            "Accuracy": 50
-        }
-    },
-    "Sodium Chloride": {
-        name: "Sodium Chloride",
-        structure: "path/to/sodium-chloride-structure.png",
-        properties: {
-            "LD50": 3000, // mg/kg
-            "QSAR Risk Level": 0.03,
-            "Experimental Risk Level": 0.025,
-            "Accuracy": 60
-        }
-    },
-    "Acetaminophen": {
-        name: "Acetaminophen",
-        structure: "path/to/acetaminophen-structure.png",
-        properties: {
-            "LD50": 338, // mg/kg
-            "QSAR Risk Level": 0.08,
-            "Experimental Risk Level": 0.07,
-            "Accuracy": 85
-        }
-    }
-    // Add more chemicals as needed
+const chemicalsData = {
+    "Caffeine": { LD50: 192, QSAR_Risk: 0.05, Exp_Risk: 0.04 },
+    "Aspartame": { LD50: 5000, QSAR_Risk: 0.01, Exp_Risk: 0.005 },
+    "Sodium Benzoate": { LD50: 4070, QSAR_Risk: 0.015, Exp_Risk: 0.012 },
+    "Paracetamol": { LD50: 338, QSAR_Risk: 0.07, Exp_Risk: 0.06 },
+    "Nicotine": { LD50: 50, QSAR_Risk: 0.4, Exp_Risk: 0.35 },
+    "Sodium Nitrite": { LD50: 180, QSAR_Risk: 0.08, Exp_Risk: 0.07 },
+    "Monosodium Glutamate": { LD50: 15000, QSAR_Risk: 0.005, Exp_Risk: 0.004 },
+    "Saccharin": { LD50: 14000, QSAR_Risk: 0.002, Exp_Risk: 0.0015 },
+    "Acesulfame K": { LD50: 6000, QSAR_Risk: 0.007, Exp_Risk: 0.0055 },
+    "Cyclamate": { LD50: 12000, QSAR_Risk: 0.004, Exp_Risk: 0.0035 },
+    "Ibuprofen": { LD50: 636, QSAR_Risk: 0.06, Exp_Risk: 0.055 },
+    "Acetaminophen": { LD50: 338, QSAR_Risk: 0.07, Exp_Risk: 0.065 },
+    "Ethanol": { LD50: 7060, QSAR_Risk: 0.02, Exp_Risk: 0.018 },
+    "Benzene": { LD50: 930, QSAR_Risk: 0.09, Exp_Risk: 0.085 },
+    "Formaldehyde": { LD50: 100, QSAR_Risk: 0.3, Exp_Risk: 0.28 },
+    "Propylene Glycol": { LD50: 22000, QSAR_Risk: 0.002, Exp_Risk: 0.0015 },
+    "Methanol": { LD50: 5628, QSAR_Risk: 0.04, Exp_Risk: 0.035 },
+    "Toluene": { LD50: 636, QSAR_Risk: 0.065, Exp_Risk: 0.06 },
+    "Chlorpyrifos": { LD50: 82, QSAR_Risk: 0.35, Exp_Risk: 0.32 },
+    "Atrazine": { LD50: 672, QSAR_Risk: 0.065, Exp_Risk: 0.06 },
+    "Glyphosate": { LD50: 5600, QSAR_Risk: 0.02, Exp_Risk: 0.018 },
+    "DDT": { LD50: 113, QSAR_Risk: 0.28, Exp_Risk: 0.25 },
+    "Lead Acetate": { LD50: 466, QSAR_Risk: 0.075, Exp_Risk: 0.07 },
+    "Sodium Fluoride": { LD50: 52, QSAR_Risk: 0.38, Exp_Risk: 0.36 },
+    "Thalidomide": { LD50: 300, QSAR_Risk: 0.09, Exp_Risk: 0.08 }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-    const dropdown = document.getElementById("chemical-dropdown");
-    for (const chemical in chemicals) {
-        const option = document.createElement("option");
-        option.value = chemical;
-        option.textContent = chemical;
-        dropdown.appendChild(option);
-    }
+function calculateRiskLevel() {
+    const chemical = document.getElementById('chemical-select').value;
+    const data = chemicalsData[chemical];
 
-    dropdown.addEventListener("change", updateChemicalDetails);
-});
+    const riskLevel = (data.Exp_Risk + data.QSAR_Risk) / 2;
+    const toxicityRisk = data.Exp_Risk * 1.2;
+    const accuracy = ((data.Exp_Risk / data.QSAR_Risk) * 100).toFixed(2);
 
-function updateChemicalDetails() {
-    const chemical = document.getElementById("chemical-dropdown").value;
-    const info = chemicals[chemical];
-
-    document.getElementById("chemical-name").textContent = info.name;
-    document.getElementById("chemical-structure").src = info.structure;
-    const propertiesList = document.getElementById("chemical-properties");
-    propertiesList.innerHTML = "";
-    for (const [key, value] of Object.entries(info.properties)) {
-        const li = document.createElement("li");
-        li.textContent = `${key}: ${value}`;
-        propertiesList.appendChild(li);
-    }
-}
-
-function calculateRisk() {
-    const concentration = parseFloat(document.getElementById("concentration").value);
-    const exposure = parseFloat(document.getElementById("exposure").value);
-    const chemical = document.getElementById("chemical-dropdown").value;
-    const info = chemicals[chemical];
-
-    const LD50 = info.properties["LD50"];
-    const qsarRisk = info.properties["QSAR Risk Level"];
-    const experimentalRisk = info.properties["Experimental Risk Level"];
-
-    // Risk calculation
-    const riskLevel = (concentration * exposure) / LD50;
-    const accuracy = (1 - Math.abs(qsarRisk - experimentalRisk) / qsarRisk) * 100;
-
-    document.getElementById("calculated-risk").textContent = riskLevel.toFixed(5);
-    document.getElementById("qsar-risk").textContent = qsarRisk.toFixed(5);
-    document.getElementById("risk-classification").textContent = classifyRisk(riskLevel);
-    updateChart(riskLevel, qsarRisk);
-}
-
-function classifyRisk(risk) {
-    if (risk > 0.1) return "High";
-    if (risk > 0.01) return "Moderate";
-    return "Low";
-}
-
-function updateChart(calculatedRisk, qsarRisk) {
-    const chart = document.getElementById("risk-chart");
-    chart.innerHTML = "";
-
-    const data = {
-        labels: ['Calculated Risk', 'QSAR Risk'],
-        datasets: [{
-            label: 'Risk Levels',
-            data: [calculatedRisk, qsarRisk],
-            backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
-            borderWidth: 1
-        }]
-    };
-
-    const ctx = document.createElement('canvas');
-    chart.appendChild(ctx);
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    document.getElementById('risk-level').innerText = `Risk Level: ${riskLevel.toFixed(6)}`;
+    document.getElementById('toxicity-risk').innerText = `Toxicity Risk: ${toxicityRisk.toFixed(6)}`;
+    document.getElementById('accuracy').innerText = `Accuracy: ${accuracy}%`;
 }
