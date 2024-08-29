@@ -7,45 +7,59 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>Chemical Risk Level Calculator</h1>
-        <label for="chemical-select">Select Chemical:</label>
-        <select id="chemical-select">
-            <option value="Caffeine">Caffeine</option>
-            <option value="Aspartame">Aspartame</option>
-            <option value="Sodium Benzoate">Sodium Benzoate</option>
-            <option value="Paracetamol">Paracetamol</option>
-            <option value="Nicotine">Nicotine</option>
-            <option value="Sodium Nitrite">Sodium Nitrite</option>
-            <option value="Monosodium Glutamate">Monosodium Glutamate</option>
-            <option value="Saccharin">Saccharin</option>
-            <option value="Acesulfame K">Acesulfame K</option>
-            <option value="Cyclamate">Cyclamate</option>
-            <option value="Ibuprofen">Ibuprofen</option>
-            <option value="Acetaminophen">Acetaminophen</option>
-            <option value="Ethanol">Ethanol</option>
-            <option value="Benzene">Benzene</option>
-            <option value="Formaldehyde">Formaldehyde</option>
-            <option value="Propylene Glycol">Propylene Glycol</option>
-            <option value="Methanol">Methanol</option>
-            <option value="Toluene">Toluene</option>
-            <option value="Chlorpyrifos">Chlorpyrifos</option>
-            <option value="Atrazine">Atrazine</option>
-            <option value="Glyphosate">Glyphosate</option>
-            <option value="DDT">DDT</option>
-            <option value="Lead Acetate">Lead Acetate</option>
-            <option value="Sodium Fluoride">Sodium Fluoride</option>
-            <option value="Thalidomide">Thalidomide</option>
-        </select>
-
-        <button onclick="calculateRiskLevel()">Calculate Risk Level</button>
-
-        <h2>Results</h2>
-        <p id="risk-level">Risk Level: </p>
-        <p id="toxicity-risk">Toxicity Risk: </p>
-        <p id="accuracy">Accuracy: </p>
+    </header>
+    <div class="container">
+        <div class="form-group">
+            <label for="chemical">Select Chemical:</label>
+            <select id="chemical">
+                <option value="" disabled selected>Select a chemical</option>
+                <!-- Options will be added by JavaScript -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="age">Age (years):</label>
+            <input type="number" id="age" min="0">
+        </div>
+        <div class="form-group">
+            <label for="body-weight">Body Weight (kg):</label>
+            <input type="number" id="body-weight" min="0">
+        </div>
+        <div class="form-group">
+            <label for="concentration">Concentration (c) in mg/kg:</label>
+            <input type="number" id="concentration" step="any">
+        </div>
+        <div class="form-group">
+            <label for="exposure">Exposure (e) in kg/day:</label>
+            <input type="number" id="exposure" step="any">
+        </div>
+        <div class="form-group">
+            <label for="ld50">LD50 of Chemical (mg/kg):</label>
+            <input type="number" id="ld50" step="any">
+        </div>
+        <button id="calculate">Calculate Risk</button>
+        <div id="results">
+            <h2>Results</h2>
+            <p><strong>QSAR Predicted Risk Level:</strong> <span id="qsar-risk"></span></p>
+            <p><strong>Calculated Risk Level:</strong> <span id="calculated-risk"></span></p>
+            <p><strong>Risk Level Classification:</strong> <span id="risk-classification"></span></p>
+        </div>
+        <div id="chemical-details">
+            <h2>Chemical Details</h2>
+            <p><strong>Description:</strong> <span id="description"></span></p>
+            <p><strong>Diseases Caused:</strong> <span id="diseases"></span></p>
+            <p><strong>Solution:</strong> <span id="solution"></span></p>
+        </div>
+        <div id="graph">
+            <h2>Graphical Analysis</h2>
+            <!-- Placeholder for graphs -->
+            <canvas id="risk-graph" width="400" height="200"></canvas>
+        </div>
     </div>
-
-    <script src="scripts.js"></script>
+    <footer>
+        <p>&copy; 2024 National Science Expo. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
 </body>
 </html>
