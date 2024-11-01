@@ -1,318 +1,103 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chemical Risk Assessment - Science Expo</title>
+    <title>Caffeine 3D Model</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f0f8ff;
-            color: #333;
-        }
-        header {
-            background-color: #007acc;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 2em;
-            margin: 0;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-            padding: 20px;
-            transition: transform 0.2s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        p {
-            margin-bottom: 10px;
-        }
-        .chart-container {
-            position: relative;
-            height: 400px;
-            width: 100%;
-        }
-        canvas {
-            display: block;
-            margin: 0 auto;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-        input, select, button {
-            padding: 0.5rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #56ce27;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        button:hover {
-            background-color: #56ce27;
-        }
-        footer {
-            background-color: #007acc;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        #data-container {
-            background: #e9ecef;
-            border-radius: 8px;
-            padding: 15px;
-            overflow-x: auto;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        .data-table th, .data-table td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        .data-table th {
-            background-color: #007acc;
-            color: white;
-        }
+        body { margin: 0; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Chemical Risk Assessment - Science Expo</h1>
-        <p>Under the Topic: Mathematical Modeling and Computational Thinking</p>
-    </header>
-    <div class="container">
-        <div class="card">
-            <h2>Chemical Risk Level Calculator</h2>
-            <div class="form-group">
-                <label for="chemical">Select Chemical:</label>
-                <select id="chemical">
-                    <option value="" disabled selected>Select a chemical</option>
-                    <!-- Options will be added by JavaScript -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="age">Age (years):</label>
-                <input type="number" id="age" min="0">
-            </div>
-            <div class="form-group">
-                <label for="body-weight">Body Weight (kg):</label>
-                <input type="number" id="body-weight" min="0">
-            </div>
-            <div class="form-group">
-                <label for="concentration">Concentration (c) in mg/kg:</label>
-                <input type="number" id="concentration" step="any">
-            </div>
-            <div class="form-group">
-                <label for="exposure">Exposure (e) in kg/day:</label>
-                <input type="number" id="exposure" step="any">
-            </div>
-            <div class="form-group">
-                <label for="ld50">LD50 of Chemical (mg/kg):</label>
-                <input type="number" id="ld50" step="any">
-            </div>
-            <button id="calculate">Calculate Risk</button>
-            <div id="results">
-                <h2>Results</h2>
-                <p><strong>QSAR Predicted Risk Level:</strong> <span id="qsar-risk"></span></p>
-                <p><strong>Calculated Risk Level:</strong> <span id="calculated-risk"></span></p>
-                <p><strong>Risk Level Classification:</strong> <span id="risk-classification"></span></p>
-            </div>
-            <div id="chemical-details">
-                <h2>Chemical Details</h2>
-                <p><strong>Description:</strong> <span id="description"></span></p>
-                <p><strong>Diseases Caused:</strong> <span id="diseases"></span></p>
-                <p><strong>Solution:</strong> <span id="solution"></span></p>
-            </div>
-            <div class="card">
-                <h2>Graphical Analysis</h2>
-                <div class="chart-container">
-                    <canvas id="risk-graph" width="400" height="200"></canvas>
-                </div>
-            </div>
-            <div class="card">
-                <h2>Collected Data</h2>
-                <div id="data-container"></div>
-            </div>
-        </div>
-    </div>
-    <footer>
-        <p>&copy; 2024 Science Expo - Chemical Risk Assessment</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        const chemicalData = {
-            "Caffeine": {
-                "ld50": 192,
-                "qsarRisk": 0.05,
-                "details": {
-                    "Description": "Caffeine is a stimulant found in coffee, tea, and various other products.",
-                    "Diseases": "May cause insomnia, nervousness, restlessness, stomach irritation.",
-                    "Solution": "Limit intake of caffeinated beverages."
-                }
-            },
-            "Aspartame": {
-                "ld50": 5000,
-                "qsarRisk": 0.01,
-                "details": {
-                    "Description": "Aspartame is an artificial sweetener used in many low-calorie products.",
-                    "Diseases": "May cause headaches or allergic reactions in some individuals.",
-                    "Solution": "Monitor intake if sensitive to aspartame."
-                }
-            },
-            // Add more chemicals as needed...
+        // Create the scene
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Define atom colors
+        const colors = {
+            C: 0x000000, // Carbon
+            H: 0xFFFFFF, // Hydrogen
+            N: 0x0000FF, // Nitrogen
+            O: 0xFF0000  // Oxygen
         };
 
-        // Populate the chemical dropdown
-        const chemicalSelect = document.getElementById('chemical');
-        for (const chemical in chemicalData) {
-            const option = document.createElement('option');
-            option.value = chemical;
-            option.textContent = chemical;
-            chemicalSelect.appendChild(option);
+        // Function to create a sphere for an atom
+        function createAtomElement(type, x, y, z) {
+            const geometry = new THREE.SphereGeometry(0.2, 16, 16);
+            const material = new THREE.MeshBasicMaterial({ color: colors[type] });
+            const atom = new THREE.Mesh(geometry, material);
+            atom.position.set(x, y, z);
+            return atom;
         }
 
-        // Calculate risk level
-        document.getElementById('calculate').addEventListener('click', () => {
-            const chemical = document.getElementById('chemical').value;
-            const age = parseFloat(document.getElementById('age').value);
-            const bodyWeight = parseFloat(document.getElementById('body-weight').value);
-            const concentration = parseFloat(document.getElementById('concentration').value);
-            const exposure = parseFloat(document.getElementById('exposure').value);
-            const ld50 = parseFloat(document.getElementById('ld50').value);
+        // Function to create a cylinder for a bond
+        function createBondElement(x1, y1, z1, x2, y2, z2) {
+            const bondGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1, 16);
+            const bondMaterial = new THREE.MeshBasicMaterial({ color: 0x999999 });
+            const bond = new THREE.Mesh(bondGeometry, bondMaterial);
+            bond.position.set((x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2);
+            bond.lookAt(new THREE.Vector3(x2, y2, z2));
+            bond.rotation.z = Math.PI / 2; // Rotate to align with the bond
+            bond.scale.z = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2); // Scale to bond length
+            return bond;
+        }
 
-            if (!chemical || isNaN(age) || isNaN(bodyWeight) || isNaN(concentration) || isNaN(exposure) || isNaN(ld50)) {
-                alert('Please fill in all fields correctly.');
-                return;
-            }
+        // Caffeine atom positions (x, y, z)
+        const atoms = [
+            createAtomElement('C', 0, 0, 0),   // C1
+            createAtomElement('C', 1, 0, 0),   // C2
+            createAtomElement('C', 1, 1, 0),   // C3
+            createAtomElement('C', 0, 1, 0),   // C4
+            createAtomElement('N', 0.5, -0.5, 0), // N1
+            createAtomElement('N', 0.5, 1.5, 0),  // N2
+            createAtomElement('O', 1, -0.5, 0),   // O1
+            createAtomElement('H', 0, 0.5, 0),   // H1
+            createAtomElement('H', 1, 0.5, 0),   // H2
+            createAtomElement('H', 0, 1, 0.5),   // H3
+            createAtomElement('H', 0.5, 1, 0.5)   // H4
+        ];
 
-            const data = chemicalData[chemical];
-            const qsarRisk = data.qsarRisk;
+        // Add atoms to the scene
+        atoms.forEach(atom => scene.add(atom));
 
-            // Calculate risk level
-            const calculatedRisk = (concentration * exposure) / (bodyWeight * ld50);
+        // Create bonds between atoms (simplified)
+        const bonds = [
+            createBondElement(0, 0, 0, 1, 0, 0),
+            createBondElement(1, 0, 0, 1, 1, 0),
+            createBondElement(1, 1, 0, 0, 1, 0),
+            createBondElement(0, 1, 0, 0, 0, 0),
+            createBondElement(0.5, -0.5, 0, 0, 0, 0),
+            createBondElement(0.5, 1.5, 0, 1, 1, 0),
+            createBondElement(0.5, 1.5, 0, 1, 0, 0)
+        ];
 
-            // Update results
-            document.getElementById('qsar-risk').textContent = qsarRisk.toFixed(4);
-            document.getElementById('calculated-risk').textContent = calculatedRisk.toExponential(4);
-            document.getElementById('risk-classification').textContent = getRiskClassification(calculatedRisk);
+        // Add bonds to the scene
+        bonds.forEach(bond => scene.add(bond));
 
-            // Update chemical details
-            document.getElementById('description').textContent = data.details.Description;
-            document.getElementById('diseases').textContent = data.details.Diseases;
-            document.getElementById('solution').textContent = data.details.Solution;
+        // Set camera position
+        camera.position.z = 5;
 
-            // Generate graph
-            generateGraph(qsarRisk, calculatedRisk);
-
-            // Update collected data section
-            updateDataContainer();
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
         });
-
-        // Get risk classification
-        function getRiskClassification(riskLevel) {
-            if (riskLevel > 0.1) return 'High';
-            if (riskLevel > 0.01) return 'Moderate';
-            return 'Low';
-        }
-
-        // Generate graph
-        function generateGraph(qsarRisk, calculatedRisk) {
-            const ctx = document.getElementById('risk-graph').getContext('2d');
-
-            // Destroy existing chart if it exists
-            if (window.riskChart) {
-                window.riskChart.destroy();
-            }
-
-            window.riskChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['QSAR Predicted', 'Calculated'],
-                    datasets: [{
-                        label: 'Risk Levels',
-                        data: [qsarRisk, calculatedRisk],
-                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-
-        // Update collected data section
-        function updateDataContainer() {
-            const dataContainer = document.getElementById('data-container');
-            let tableHtml = `
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Chemical</th>
-                            <th>Age</th>
-                            <th>Body Weight</th>
-                            <th>Concentration</th>
-                            <th>Exposure</th>
-                            <th>LD50</th>
-                            <th>Calculated Risk Level</th>
-                            <th>QSAR Risk Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${document.getElementById('chemical').value}</td>
-                            <td>${document.getElementById('age').value}</td>
-                            <td>${document.getElementById('body-weight').value}</td>
-                            <td>${document.getElementById('concentration').value}</td>
-                            <td>${document.getElementById('exposure').value}</td>
-                            <td>${document.getElementById('ld50').value}</td>
-                            <td>${(document.getElementById('calculated-risk').textContent)}</td>
-                            <td>${(document.getElementById('qsar-risk').textContent)}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-            dataContainer.innerHTML = tableHtml;
-        }
     </script>
 </body>
 </html>
